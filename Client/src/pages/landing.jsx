@@ -1,4 +1,5 @@
 import GradualSpacing from "../components/ui/gradual-spacing";
+import { Link } from "react-router-dom";
 
 const LandingPage = () => {
   return (
@@ -17,6 +18,18 @@ const LandingPage = () => {
           "
           text="Welcome to Femineh"
         />
+        <div className="flex justify-center mt-8">
+          <Link to="/login">
+            <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mr-4">
+              Login
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button className="bg-green-500 text-white font-bold py-2 px-4 rounded">
+              Signup
+            </button>
+          </Link>
+        </div>
       </div>
     </>
   );

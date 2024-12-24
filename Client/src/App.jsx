@@ -9,6 +9,8 @@ function App() {
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/Landing" element={<LandingPage />} />
+        <Route path="/login" element={<h1>Login</h1>} />
+        <Route path="/signup" element={<h1>Signup</h1>} />
       </Routes>
     </Router>
   );

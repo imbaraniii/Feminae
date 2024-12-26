@@ -4,58 +4,57 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import RetroGrid from "@/components/ui/retro-grid";
+import modelsImage from "../assets/models.png"; // Import the image directly
 
 const LandingPage = () => {
   return (
-    <div className="h-screen w-screen relative overflow-hidden bg-gradient-to-b from-[#8B3C3C] to-[#4D2C2C]">
+    <div className="h-screen w-screen relative overflow-hidden bg-gradient-to-b from-[#16423C] to-[#6A9C89]">
       {/* Upper Part with Sky Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#8B3C3C] to-transparent">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#12161b] to-transparent">
         <div className="absolute top-0 left-0 w-full h-1/2 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
       </div>
-
-      {/* Retro Grid Moving */}
-      <div className="absolute bottom-0 left-0 right-0 h-1/2">
-        <RetroGrid
-          className="w-full h-full"
-          cellSize={60}
-          angle={65}
-          opacity={0.5}
-          lightLineColor="#FFFFFF"
-          darkLineColor="#DDDDDD"
-        />
-      </div>
-
-      {/* Welcome Message */}
       <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.5 }}
-        className="absolute top-12 w-full text-center"
-      >
-        <h1
-          className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-[#FFFFFF] to-[#F0F0F0] text-transparent bg-clip-text tracking-wide"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 0.8, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="flex justify-center items-center"
         >
-          WELCOME TO FEMINAE 
-        </h1>
-      </motion.div>
-
-      {/* Quote */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 2 }}
-        className="absolute top-28 mt-8 w-full text-center text-white text-lg sm:text-xl"
-      >
-        <p>"You are not alone. We are here for you."</p>
-      </motion.div>
-
-      {/* Interactive Buttons */}
+          <img
+            src={modelsImage}
+            alt="Models"
+            className="mx-auto w-40"
+          />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="absolute w-full text-center flex justify-center items-center"
+        >
+          <h1
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#9caed1] to-[#8293c2] text-transparent bg-clip-text tracking-wide"
+          >
+            WELCOME TO FEMINAE
+          </h1>
+        </motion.div>
+        <div className="absolute bottom-0 left-0 right-0 h-1/2">
+          <RetroGrid
+            className="w-full h-full"
+            cellSize={55}
+            angle={60}
+            opacity={0.8}
+            lightLineColor="#131010"
+            darkLineColor="#DDDDDD"
+          />
+        </div>
+       
+        {/* Interactive Buttons */}
       <div className="absolute bottom-8 left-8">
         {/* Login Button */}
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 2.5 }}
+          transition={{ duration: 1, delay: 1.5 }}
         >
           <Link to="/login">
             <button
@@ -72,7 +71,7 @@ const LandingPage = () => {
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 2.8 }}
+          transition={{ duration: 1, delay: 1.5 }}
         >
           <Link to="/signup">
             <button

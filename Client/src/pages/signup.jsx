@@ -1,7 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import logo from "../assets/image.png";
 
 const SignUp = () => {
+  const navigate = useNavigate(); // Initialize the navigation hook
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/formspage"); // Redirect to the forms page
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#8B3C3C] to-[#B76E6E]">
       <div
@@ -14,7 +22,7 @@ const SignUp = () => {
         </div>
 
         {/* Form */}
-        <form>
+        <form onSubmit={handleSubmit}> {/* Attach handleSubmit to the form */}
           {/* Name Field */}
           <div className="mb-4">
             <label

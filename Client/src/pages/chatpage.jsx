@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ChatPage = () => {
   return (
@@ -13,14 +14,14 @@ const ChatPage = () => {
       </div>
       <nav className="fixed bottom-0 left-0 right-0 bg-white py-3 shadow-md flex justify-around">
         <Link
-          to="/"
+          to="/homepage"
           className="text-center text-gray-700 hover:text-[#8B3C3C] transition"
         >
           <div>🏠</div>
           <span className="text-xs">Home</span>
         </Link>
         <Link
-          to="/ai-chat"
+          to="/chatpage"
           className="text-center text-gray-700 hover:text-[#8B3C3C] transition"
         >
           <div>🤖</div>

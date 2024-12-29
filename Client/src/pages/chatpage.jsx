@@ -1,239 +1,105 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Send, Smile, Paperclip } from 'lucide-react';
-import { motion } from 'framer-motion'; // Add animations
-import Button from "@/components/ui/button"; // Adjust the relative path based on folder structure
-import { ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
+import classNames from "classnames";
 
-const ChatPage = () => {
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Welcome to the chat!", sender: 'system' },
-  ]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const messagesEndRef = useRef(null);
+const ResponsiveChatUI = () => {
+  const [messages, setMessages] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const standardPrompts = [
+    "What is your name?",
+    "How can I assist you today?",
+    "Tell me more about your project.",
+    "What are the challenges you're facing?",
+  ];
+
+  const sendMessage = (message) => {
+    if (message.trim() === "") return;
+    setMessages((prevMessages) => [...prevMessages, { text: message, sender: "user" }]);
+    setCurrentMessage("");
+    simulateBotResponse();
+    setIsSidebarOpen(false);
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const sendMessage = () => {
-    if (inputMessage.trim()) {
-      const newMessage = {
-        id: messages.length + 1,
-        text: inputMessage,
-        sender: 'user',
-      };
-      setMessages([...messages, newMessage]);
-
-      setTimeout(() => {
-        const aiResponse = {
-          id: messages.length + 2,
-          text: `You said: ${inputMessage}`,
-          sender: 'ai',
-        };
-        setMessages((prevMessages) => [...prevMessages, aiResponse]);
-      }, 1000);
-
-      setInputMessage('');
-      setShowEmojiPicker(false);
-    }
-  };
-
-  const handleEmojiClick = (emojiObject) => {
-    setInputMessage((prev) => prev + emojiObject.emoji);
+  const simulateBotResponse = () => {
+    setTimeout(() => {
+      const botReply = "This is a bot reply!";
+      setMessages((prevMessages) => [...prevMessages, { text: botReply, sender: "bot" }]);
+    }, 1000);
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(to bottom, #8B3C3C, #4D2C2C)',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white'
-    }}>
-      <header style={{
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        background: 'linear-gradient(to right, #3B82F6, #9333EA)',
-        color: 'white',
-        width: '100%',
-        padding: '1rem'
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem',
-          justifyContent: 'center'
-        }}>
-          <motion.div
-            style={{
-              width: '3rem',
-              height: '3rem',
-              background: 'white',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#3B82F6',
-              fontWeight: 'bold'
-            }}
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            AI
-          </motion.div>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: '600' }}>Feminah Personalized Assistant</h2>
-        </div>
-      </header>
-
-      <div style={{
-        background: 'white',
-        color: 'black',
-        borderRadius: '0.5rem',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        width: '91.666%',
-        maxWidth: '40rem',
-        marginTop: '1.5rem',
-        padding: '1.5rem'
-      }}>
-        {messages.map((msg) => (
-          <motion.div
-            key={msg.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{ display: 'flex', justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}
-          >
-            <div
-              style={{
-                maxWidth: '70%',
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                background: msg.sender === 'user' ? 'linear-gradient(to right, #3B82F6, #9333EA)' : '#E5E7EB',
-                color: msg.sender === 'user' ? 'white' : 'black',
-                textAlign: msg.sender === 'system' ? 'center' : 'left',
-                fontStyle: msg.sender === 'system' ? 'italic' : 'normal'
-              }}
+    <>
+      <div className="chat-container h-screen w-screen flex flex-col lg:flex-row bg-gray-100">
+        <div
+          className={classNames(
+            "fixed top-0 left-0 h-screen w-3/4 sm:w-1/2 lg:w-1/4 bg-blue-500 text-white p-4 z-10 shadow-lg transition-transform transform",
+            {
+              "translate-x-0": isSidebarOpen,
+              "-translate-x-full": !isSidebarOpen,
+              "lg:static lg:translate-x-0 lg:block": true,
+            }
+          )}
+        >
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold">Standard Prompts</h2>
+            <button
+              className="lg:hidden bg-blue-500 text-white p-2 rounded-full z-20"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
-              {msg.text}
-            </div>
-          </motion.div>
-        ))}
-        <div ref={messagesEndRef} />
+              {isSidebarOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
+          <ul className="space-y-2">
+            {standardPrompts.map((prompt, index) => (
+              <li
+                key={index}
+                className="cursor-pointer bg-blue-600 p-2 rounded hover:bg-blue-400"
+                onClick={() => sendMessage(prompt)}
+              >
+                {prompt}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className={classNames(
+          "chat-interface flex flex-col flex-grow transition-transform transform p-4 bg-gray-100",
+          {
+            "translate-x-3/4 sm:translate-x-1/2 lg:translate-x-0": isSidebarOpen,
+            "translate-x-0": !isSidebarOpen,
+          }
+        )}>
+          <div className="chat-box flex-grow overflow-y-auto p-3 bg-white rounded-md border border-gray-300">
+            {messages.map((message, index) => (
+              <div key={index} className={`message mb-2 ${message.sender === "user" ? "text-right" : "text-left"}`}>
+                <div className={`inline-block p-2 rounded-lg ${message.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}>
+                  {message.text}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="message-input mt-4 flex">
+            <input
+              type="text"
+              value={currentMessage}
+              onChange={(e) => setCurrentMessage(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none"
+            />
+            <button
+              onClick={() => sendMessage(currentMessage)}
+              className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600"
+            >
+              Send
+            </button>
+          </div>
+        </div>
       </div>
-
-      {showEmojiPicker && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.2 }}
-          style={{
-            position: 'absolute',
-            bottom: '5rem',
-            right: '1rem',
-            zIndex: 50
-          }}
-        >
-          <EmojiPicker onEmojiClick={handleEmojiClick} />
-        </motion.div>
-      )}
-
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '1rem',
-        marginTop: '1rem',
-        width: '91.666%',
-        maxWidth: '40rem'
-      }}>
-        <button style={{
-          color: '#9CA3AF',
-          transition: 'color 0.2s',
-          border: 'none',
-          background: 'none'
-        }} onMouseEnter={(e) => e.target.style.color = '#3B82F6'} onMouseLeave={(e) => e.target.style.color = '#9CA3AF'}>
-          <Paperclip size={24} />
-        </button>
-        <input
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Type a message..."
-          style={{
-            flexGrow: 1,
-            padding: '0.5rem',
-            border: '1px solid #D1D5DB',
-            borderRadius: '9999px',
-            outline: 'none',
-            transition: 'box-shadow 0.2s',
-            boxShadow: '0 0 0 2px transparent'
-          }}
-          onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #3B82F6'}
-          onBlur={(e) => e.target.style.boxShadow = '0 0 0 2px transparent'}
-        />
-        <Button variant="outline" size="icon" onClick={sendMessage}>
-          <ChevronRight />
-        </Button>
-      </div>
-
-      <nav style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        background: 'white',
-        padding: '0.75rem',
-        boxShadow: '0 -2px 4px rgba(0, 0, 0, 0.1)',
-        display: 'flex',
-        justifyContent: 'space-around'
-      }}>
-        <Link
-          to="/homepage"
-          style={{ textAlign: 'center', color: '#4B5563', transition: 'color 0.2s' }}
-          onMouseEnter={(e) => e.target.style.color = '#8B3C3C'}
-          onMouseLeave={(e) => e.target.style.color = '#4B5563'}
-        >
-          <div>🏠</div>
-          <span style={{ fontSize: '0.75rem' }}>Home</span>
-        </Link>
-        <Link
-          to="/chatpage"
-          style={{ textAlign: 'center', color: '#4B5563', transition: 'color 0.2s' }}
-          onMouseEnter={(e) => e.target.style.color = '#8B3C3C'}
-          onMouseLeave={(e) => e.target.style.color = '#4B5563'}
-        >
-          <div>🤖</div>
-          <span style={{ fontSize: '0.75rem' }}>AI Chat</span>
-        </Link>
-        <Link
-          to="/calendar"
-          style={{ textAlign: 'center', color: '#4B5563', transition: 'color 0.2s' }}
-          onMouseEnter={(e) => e.target.style.color = '#8B3C3C'}
-          onMouseLeave={(e) => e.target.style.color = '#4B5563'}
-        >
-          <div>📅</div>
-          <span style={{ fontSize: '0.75rem' }}>Calendar</span>
-        </Link>
-        <Link
-          to="/profile"
-          style={{ textAlign: 'center', color: '#4B5563', transition: 'color 0.2s' }}
-          onMouseEnter={(e) => e.target.style.color = '#8B3C3C'}
-          onMouseLeave={(e) => e.target.style.color = '#4B5563'}
-        >
-          <div>👤</div>
-          <span style={{ fontSize: '0.75rem' }}>Profile</span>
-        </Link>
-      </nav>
-    </div>
+    </>
   );
 };
 
-export default ChatPage;
+export default ResponsiveChatUI;

@@ -8,6 +8,14 @@ Welcome to the Femineh project! This project aims to support lifestyle of women 
 <img src="https://github.com/user-attachments/assets/31a3c2a7-67a8-4efc-9a0e-f616a747556c" alt="CalendarPage">
 <img src="https://github.com/user-attachments/assets/0cdb9a78-7901-40fb-825a-c2740b78d5fc" alt="ProfilePage">
 
+</br>
+
+# Pipeline
+
+![image](https://github.com/user-attachments/assets/bab38404-184b-4b1b-a05e-048e5031a6d4)
+
+</br>
+
 # How to Clone and Use the Project
 1. Clone the repository:
     ```

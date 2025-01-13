@@ -8,8 +8,7 @@ module.exports = {
     			'fade-letter': 'fadeLetter 5s forwards',
     			ripple: 'ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite',
     			grid: 'grid 15s linear infinite',
-    			meteor: 'meteor 5s linear infinite',
-    			rippling: 'rippling var(--duration) ease-out'
+    			meteor: 'meteor 5s linear infinite'
     		},
     		keyframes: {
     			fadeIn: {
@@ -56,15 +55,6 @@ module.exports = {
     				},
     				'100%': {
     					transform: 'rotate(215deg) translateX(-500px)',
-    					opacity: '0'
-    				}
-    			},
-    			rippling: {
-    				'0%': {
-    					opacity: '1'
-    				},
-    				'100%': {
-    					transform: 'scale(2)',
     					opacity: '0'
     				}
     			}

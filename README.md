@@ -1,5 +1,24 @@
+> [!NOTE]  
+> Markdown improvement required
+
+
 # Introduction
 Welcome to the Femineh project! This project aims to support lifestyle of women in various field. 
+
+# Project Demo
+<img src="https://github.com/user-attachments/assets/4c200841-6e9f-4474-a579-fd2515d73b65" alt="MainPage">
+<img src="https://github.com/user-attachments/assets/2cbb2c28-57d8-4ab7-b3dc-06b0c0542be7" alt="LoginPage">
+<img src="https://github.com/user-attachments/assets/0a07928c-bf60-4a1e-8980-aeda3f3983c0" alt="ChatPage">
+<img src="https://github.com/user-attachments/assets/31a3c2a7-67a8-4efc-9a0e-f616a747556c" alt="CalendarPage">
+<img src="https://github.com/user-attachments/assets/0cdb9a78-7901-40fb-825a-c2740b78d5fc" alt="ProfilePage">
+
+</br>
+
+# Pipeline
+
+![image](https://github.com/user-attachments/assets/bab38404-184b-4b1b-a05e-048e5031a6d4)
+
+</br>
 
 # How to Clone and Use the Project
 1. Clone the repository:
@@ -25,3 +44,10 @@ To install the project dependencies, run the following command in the `Client` d
 ```
 npm install @eslint/js @types/node @types/react-dom @types/react @typescript-eslint/eslint-plugin @typescript-eslint/parser @vitejs/plugin-react autoprefixer class-variance-authority clsx eslint-plugin-react-hooks eslint-plugin-react-refresh eslint-plugin-react framer-motion globals lucide-react postcss react-dom react-router-dom react tailwind-merge tailwindcss-animate tailwindcss vite
 ```
+
+Team members :
+- [Kavinesh P](https://github.com/kavinesh11)
+- [Baranidharan S](https://github.com/imbaraniii)
+- [Sai Nivedh V](https://github.com/SaiNivedh26)
+- [Hari Heman V K](https://github.com/HXMAN76)
+- [Rithanya K A](https://github.com/rithanya08)

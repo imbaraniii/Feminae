@@ -61,7 +61,7 @@ const ProfilePage = () => {
               : "text-gray-400 hover:text-white"
           }`}
         >
-          <div>🤖</div>
+          <div>💬</div>
           <span className="text-xs">AI Chat</span>
           {isActive("/chatpage") && (
             <span

@@ -52,7 +52,7 @@ const CalendarPage = () => {
           to="/chatpage"
           className="text-center text-gray-400 hover:text-white transition"
         >
-          <div>🤖</div>
+          <div>💬</div>
           <span className="text-xs">AI Chat</span>
         </Link>
         <Link

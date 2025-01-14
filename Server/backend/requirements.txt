@@ -28,3 +28,5 @@ requests>=2.26.0
 
 # PDF Generation
 markdown>=3.3
+
+weasyprint

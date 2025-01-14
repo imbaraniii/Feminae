@@ -46,7 +46,7 @@ const CalendarPage = () => {
         </div>
       </div>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation
       <nav className="fixed bottom-0 left-0 right-0 bg-black py-3 shadow-md flex justify-around border-t border-gray-700">
         <Link
           to="/chatpage"
@@ -70,6 +70,7 @@ const CalendarPage = () => {
           <span className="text-xs">Profile</span>
         </Link>
       </nav>
+     */}
     </div>
   );
 };

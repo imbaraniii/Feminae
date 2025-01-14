@@ -1,0 +1,30 @@
+# Web Framework
+fastapi>=0.68.0
+uvicorn>=0.15.0
+
+# CORS Middleware
+fastapi-cors>=0.0.6
+
+# Data Validation
+pydantic>=1.8.2
+
+# Environment Variables
+python-dotenv>=0.19.0
+
+# Database
+pymongo>=4.0.0
+
+# LLM & Vector Store
+langchain>=0.1.0
+langchain-community>=0.0.10
+chromadb>=0.3.0
+openai>=1.0.0
+groq>=0.4.0
+
+# Web Scraping
+crawl4ai>=0.1.0
+tavily-python>=0.1.0
+requests>=2.26.0
+
+# PDF Generation
+markdown>=3.3

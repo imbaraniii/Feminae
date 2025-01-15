@@ -19,7 +19,7 @@ const FormsPage = () => {
     setGender(e.target.value);
   };
 
-  // On final submit (PATCH the user’s data in MongoDB)
+  // On final submit (PATCH the user's data in MongoDB)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -93,7 +93,7 @@ const FormsPage = () => {
     };
 
     try {
-      // Make a PATCH request to update the user’s profile
+      // Make a PATCH request to update the user's profile
       const response = await fetch(`http://localhost:5000/api/profile/${userId}`, {
         method: "PATCH",
         headers: {
@@ -118,7 +118,7 @@ const FormsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#8B3C3C] to-[#4D2C2C] p-6 text-white">
+    <div className="min-h-screen bg-black p-6 text-white">
       <h1 className="text-center text-3xl font-bold mb-6">
         Health App Onboarding
       </h1>
@@ -477,7 +477,6 @@ const FormsPage = () => {
           </select>
         </div>
 
-        {/* Consent */}
         <div className="text-center mb-4">
           <label className="inline-flex items-center">
             <input
@@ -497,7 +496,7 @@ const FormsPage = () => {
 
         <button
           type="submit"
-          className="w-full p-3 bg-gradient-to-r from-[#8B3C3C] to-[#B76E6E] text-white rounded-lg shadow-md hover:scale-105 transition-all duration-200"
+          className="w-full p-3 bg-black text-white rounded-lg shadow-md hover:bg-gray-900 transition-all duration-200"
         >
           Submit
         </button>

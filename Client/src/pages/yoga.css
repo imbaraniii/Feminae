@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #000; /* Ensures the whole page background is black */
+  color: #fff; /* Ensures all text is white for visibility */
+}
+
+.yoga-page {
+  padding: 20px;
+  background-color: #000; /* Ensures the yoga page content also has a black background */
+}
+
+.back-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.back-button:hover {
+  background-color: grey;
+  color: white;
+}
+
+#videos {
+  margin-top: 50px;
+}
+
+.flip-card {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.inner {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1); /* Slight transparency for inner card */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Dark shadow for better contrast */
+}
+
+.inner iframe {
+  border-radius: 10px;
+  border: 2px solid #444; /* Subtle border for frames */
+}
+
+@media (max-width: 768px) {
+  .inner iframe {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-button {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+}

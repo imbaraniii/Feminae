@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/carousel";
 import { TextAnimate } from "@/components/ui/text-animate";
 import Chatpng from "../assets/chatbot.png";
+import Therapypng from "../assets/music.png";
 import { Calendar } from "@/components/ui/calendar";
 import { WarpBackground } from "@/components/ui/warp-background";
+import { User } from 'lucide-react'; // Import the User icon
 
 const HomePage = () => {
   const [date, setDate] = useState(new Date());
@@ -29,6 +31,15 @@ const HomePage = () => {
   return (
     // <WarpBackground>
     <div className="min-h-screen bg-black overflow-hidden flex flex-col items-center justify-center text-white p-4">
+      {/* User profile in top right corner */}
+      <div className="fixed top-4 right-4 flex items-center bg-white rounded-lg px-3 py-2 z-50">
+        <User className="text-black mr-2" size={20} />
+        <span className="text-black text-sm">Hey, Priya</span>
+      </div>
+
+      <br></br>
+      <br></br>
+      <br></br>
       <Carousel
         plugins={[plugin.current]}
         onMouseEnter={plugin.current.stop}
@@ -49,11 +60,18 @@ const HomePage = () => {
 
           {/* Therapy Card */}
           <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-            <Card className="h-[400px] bg-black">
-              <CardContent className="flex items-center justify-center p-6 bg-black text-white">
-                <div className="text-3xl font-bold hover:scale-105 transition-transform">
-                  Therapy Page
-                </div>
+          <Card className="h-[400px] bg-black">
+              <CardContent className="flex flex-col items-center justify-center p-6 bg-black text-white">
+                <TextAnimate animation="blurInUp" by="character" className="text-3xl font-bold mb-4">
+                  Therapy redefined
+                </TextAnimate>
+                <img src={Therapypng || "/placeholder.svg"} alt="AI Chat" className="object-cover"/>
+                <Link to="/therapy" className="mt-2 px-4 py-2 bg-white text-black rounded hover:bg-gray-600 transition-colors duration-300">
+                  <div className="flex items-center gap-2">
+                    <span>🎵</span>
+                    <span className="text-sm">Therapy</span>
+                  </div>
+                </Link>
               </CardContent>
             </Card>
           </CarouselItem>
@@ -65,7 +83,7 @@ const HomePage = () => {
                 <TextAnimate animation="blurInUp" by="character" className="text-3xl font-bold mb-4">
                   Talk with our AI
                 </TextAnimate>
-                <img src={Chatpng} alt="AI Chat" className="object-cover"/>
+                <img src={Chatpng || "/placeholder.svg"} alt="AI Chat" className="object-cover"/>
                 <Link to="/chatpage" className="mt-2 px-4 py-2 bg-white text-black rounded hover:bg-gray-600 transition-colors duration-300">
                   <div className="flex items-center gap-2">
                     <span>💬</span>
@@ -126,10 +144,18 @@ const HomePage = () => {
         <CarouselPrevious className="hover:scale-110 transition-transform" />
         <CarouselNext className="hover:scale-110 transition-transform" />
       </Carousel>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <footer>MADE BY MOG SQUAD </footer>
       
     </div>
+    
     // </WarpBackground>
   );
 };
 
 export default HomePage;
+

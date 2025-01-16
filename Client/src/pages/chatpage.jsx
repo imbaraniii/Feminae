@@ -1,13 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  MessageCircle,
-  Send,
-  Loader,
-  ChevronRight,
-  ChevronLeft,
-  Camera,
-  Mic,
-} from "lucide-react";
+import { MessageCircle, Send, Loader, Menu, Camera, Mic } from 'lucide-react';
 import "./chatpage.css";
 import { Link } from "react-router-dom";
 
@@ -38,12 +30,28 @@ export default function App() {
   const [messages, setMessages] = useState([]);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (window.innerWidth <= 768 && isSidebarOpen) {
+        const sidebar = document.querySelector('.sidebar');
+        const menuButton = document.querySelector('.menu-button');
+        if (sidebar && !sidebar.contains(event.target) && !menuButton.contains(event.target)) {
+          setSidebarOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isSidebarOpen]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -74,8 +82,12 @@ export default function App() {
   };
 
   return (
-    <div className={`app-container ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <div className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
+    <div className="app-container">
+      {/* Overlay for mobile */}
+      <div className={`overlay ${isSidebarOpen ? 'active' : ''}`} onClick={() => setSidebarOpen(false)} />
+      
+      {/* Sidebar */}
+      <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">
           <Link to="/dashboard">
             <button className="new-chat-button">Dashboard</button>
@@ -92,7 +104,12 @@ export default function App() {
             <button
               key={suggestion.id}
               className="prompt-suggestion-item"
-              onClick={() => setQuery(suggestion.prompt)}
+              onClick={() => {
+                setQuery(suggestion.prompt);
+                if (window.innerWidth <= 768) {
+                  setSidebarOpen(false);
+                }
+              }}
             >
               <div className="prompt-title">{suggestion.title}</div>
               <div className="prompt-preview">{suggestion.prompt}</div>
@@ -101,20 +118,21 @@ export default function App() {
         </div>
       </div>
 
-      <button
-        className={`sidebar-toggle ${isSidebarOpen ? "" : "closed"}`}
-        onClick={toggleSidebar}
-        aria-label={isSidebarOpen ? "Close Sidebar" : "Open Sidebar"}
-      >
-        {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
-      </button>
-
-      <div className="main-content">
+      {/* Main Content */}
+      <div className={`main-content ${!isSidebarOpen ? 'sidebar-closed' : ''}`}>
         <div className="chat-container">
           <div className="chat-header">
+            <button 
+              className="icon-button menu-button"
+              onClick={toggleSidebar}
+              aria-label="Toggle Sidebar"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
             <MessageCircle className="text-blue-500 w-8 h-8" />
             <h1 className="app-title">Feminae Bot</h1>
           </div>
+          
           <div className="messages-container">
             {messages.map((message, index) => (
               <div
@@ -133,6 +151,7 @@ export default function App() {
             )}
             <div ref={messagesEndRef} />
           </div>
+
           <form onSubmit={handleSearch} className="input-container">
             <button type="button" className="icon-button">
               <Camera className="w-6 h-6" />
@@ -160,3 +179,4 @@ export default function App() {
     </div>
   );
 }
+

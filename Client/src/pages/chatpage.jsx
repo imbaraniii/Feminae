@@ -26,6 +26,8 @@ import { Link } from "react-router-dom";
 import MarkdownRenderer from './MarkdownRenderer';
 
 // Predefined prompt suggestions
+const chat_history = {history: []};
+
 const PROMPT_SUGGESTIONS = [
   {
     id: 1,
@@ -96,10 +98,17 @@ export default function App() {
     setMessages((prev) => [...prev, newMessage]);
     setQuery('');
     setIsLoading(true);
+
+    const mrn= localStorage.getItem('mrn');
+    console.log(mrn);
   
     try {
-      const response = await fetch(`http://localhost:3000/search?query=${encodeURIComponent(query)}`);
+      const response = await fetch(`http://localhost:3000/search?query=${encodeURIComponent(query)}&mrn=${encodeURIComponent(mrn)}&history=${encodeURIComponent(JSON.stringify(chat_history))}`);
       const data = await response.json();
+
+      chat_history.history.push({ User: query, Bot: data.message });
+      console.log(chat_history);
+      localStorage.setItem('chat_history', JSON.stringify(chat_history));
   
       if (data.webscraping) {
         setIsWebScraping(true);

@@ -55,7 +55,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/search?query=${encodeURIComponent(query)}`
+        `http://localhost:8000/search?query=${encodeURIComponent(query)}`
       );
       const data = await response.json();
       setMessages((prev) => [...prev, { text: data.message, sender: "bot" }]);

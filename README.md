@@ -28,6 +28,7 @@ Welcome to the Femineh project! This project aims to support lifestyle of women 
 
 ![snui wfyf3fy3ug](https://github.com/user-attachments/assets/91e7233e-e7a5-4272-97b1-87338da1e46f)
 
+![comm-GIF-wkmdkwm](https://github.com/user-attachments/assets/50773652-c799-47f6-a188-d08dcff33a43)
 
 
 # Pipeline

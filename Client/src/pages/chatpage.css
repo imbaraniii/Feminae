@@ -203,6 +203,7 @@ body {
 .bot-message .message-content {
   background: #444654; /* Updated background */
   color: white;
+  color: var(--text-primary);
 }
 
 /* Input container */

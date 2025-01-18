@@ -1,26 +1,55 @@
 > [!NOTE]  
-> Markdown improvement required
+> Markdown is constantly being Improved....
 
 
 # Introduction
 Welcome to the Femineh project! This project aims to support lifestyle of women in various field. 
 
-# Project Demo
-<img src="https://github.com/user-attachments/assets/4c200841-6e9f-4474-a579-fd2515d73b65" alt="MainPage">
-<img src="https://github.com/user-attachments/assets/2cbb2c28-57d8-4ab7-b3dc-06b0c0542be7" alt="LoginPage">
-<img src="https://github.com/user-attachments/assets/0a07928c-bf60-4a1e-8980-aeda3f3983c0" alt="ChatPage">
-<img src="https://github.com/user-attachments/assets/31a3c2a7-67a8-4efc-9a0e-f616a747556c" alt="CalendarPage">
-<img src="https://github.com/user-attachments/assets/0cdb9a78-7901-40fb-825a-c2740b78d5fc" alt="ProfilePage">
+# Project Walkthrough
+
 
 </br>
+
+<br>
+
+![White Clean Minimalist Business Notepad](https://github.com/user-attachments/assets/896a4727-915c-4102-8600-37ec3c2921b9)
+
+![White Clean Minimalist Business Notepad (1)-login](https://github.com/user-attachments/assets/5ecc71cf-ae4e-4e87-ae99-d4d0416c11e4)
+
+
+![dashboard_gif](https://github.com/user-attachments/assets/390216f7-5407-43c8-a06e-041ae2221cee)
+
+![Copy of White Clean Minimalist Business Notepad](https://github.com/user-attachments/assets/ad1739dd-84e2-4960-9ddb-7cd54061a3ae)
+
+
+![diet-gif-mobile](https://github.com/user-attachments/assets/57d6420c-9750-4a20-bdd4-a8898dc82eeb)
+
+![therapy-gif](https://github.com/user-attachments/assets/76b65ba4-81bb-4c97-8d02-424cdb29fe98)
+
+![snui wfyf3fy3ug](https://github.com/user-attachments/assets/91e7233e-e7a5-4272-97b1-87338da1e46f)
+
+![comm-GIF-wkmdkwm](https://github.com/user-attachments/assets/50773652-c799-47f6-a188-d08dcff33a43)
+
 
 # Pipeline
 
-![image](https://github.com/user-attachments/assets/bab38404-184b-4b1b-a05e-048e5031a6d4)
+![WSQWD](https://github.com/user-attachments/assets/f0aad85e-28c6-4778-8683-b1144d88d4aa)
 
 </br>
 
-# How to Clone and Use the Project
+<br>
+
+# Data Extraction Workflow
+![Copy of accessible_AI (1)](https://github.com/user-attachments/assets/7a11b250-9082-48bc-ac99-ed643061d106)
+
+
+# Tech Stacks
+![image](https://github.com/user-attachments/assets/2bbdd8db-5db2-4c23-ab24-66d2ddc3b6f6)
+
+
+
+# How you can get started ?
+
 1. Clone the repository:
     ```
     git clone https://github.com/HXMAN76/Femineh.git

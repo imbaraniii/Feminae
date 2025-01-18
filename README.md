@@ -5,7 +5,7 @@
 # Introduction
 Welcome to the Femineh project! This project aims to support lifestyle of women in various field. 
 
-# Project Demo
+# Project Walkthrough
 
 
 </br>
@@ -43,7 +43,13 @@ Welcome to the Femineh project! This project aims to support lifestyle of women 
 ![Copy of accessible_AI (1)](https://github.com/user-attachments/assets/7a11b250-9082-48bc-ac99-ed643061d106)
 
 
-# How to Clone and Use the Project
+# Tech Stacks
+![image](https://github.com/user-attachments/assets/2bbdd8db-5db2-4c23-ab24-66d2ddc3b6f6)
+
+
+
+# How you can get started ?
+
 1. Clone the repository:
     ```
     git clone https://github.com/HXMAN76/Femineh.git

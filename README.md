@@ -16,9 +16,15 @@ Welcome to the Femineh project! This project aims to support lifestyle of women 
 
 # Pipeline
 
-![image](https://github.com/user-attachments/assets/bab38404-184b-4b1b-a05e-048e5031a6d4)
+![WSQWD](https://github.com/user-attachments/assets/f0aad85e-28c6-4778-8683-b1144d88d4aa)
 
 </br>
+
+<br>
+
+# Data Extraction Workflow
+![Copy of accessible_AI (1)](https://github.com/user-attachments/assets/7a11b250-9082-48bc-ac99-ed643061d106)
+
 
 # How to Clone and Use the Project
 1. Clone the repository:

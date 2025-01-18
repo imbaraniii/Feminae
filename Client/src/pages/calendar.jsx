@@ -5,7 +5,6 @@ import { Calendar } from "../components/ui/calendar"; // Correct path for Calend
 const CalendarPage = () => {
   const [date, setDate] = useState(new Date());
   const [activities, setActivities] = useState({
-    "2025-01-17": ["Catch a train to Kollam"],
     "2024-12-28": ["Team meeting at 10 AM", "Project submission deadline"],
     "2024-12-29": ["Doctor's appointment at 3 PM"],
     // Add more activities here
@@ -27,13 +26,6 @@ const CalendarPage = () => {
             selected={date}
             onSelect={setDate}
             className="rounded-md border border-gray-600"
-            dayClassName={(day) => {
-              const dayString = day.toISOString().split("T")[0];
-              if (dayString === "2025-01-17") {
-                return "bg-orange-500 text-white rounded-md"; // Highlight the date in orange
-              }
-              return "";
-            }}
           />
         </div>
 
@@ -54,13 +46,13 @@ const CalendarPage = () => {
         </div>
       </div>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation
       <nav className="fixed bottom-0 left-0 right-0 bg-black py-3 shadow-md flex justify-around border-t border-gray-700">
         <Link
           to="/chatpage"
           className="text-center text-gray-400 hover:text-white transition"
         >
-          <div>🤖</div>
+          <div>💬</div>
           <span className="text-xs">AI Chat</span>
         </Link>
         <Link
@@ -78,6 +70,7 @@ const CalendarPage = () => {
           <span className="text-xs">Profile</span>
         </Link>
       </nav>
+     */}
     </div>
   );
 };

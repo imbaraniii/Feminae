@@ -8,20 +8,10 @@
       "path": "./tsconfig.node.json"
     }
   ],
-  
   "compilerOptions": {
-    "jsx": "react-jsx", // Use "react-jsx" for React 17+ with the new JSX runtime
-    "moduleResolution": "node",
-    "target": "ES6",
-    "module": "ESNext",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   }
-  
 }

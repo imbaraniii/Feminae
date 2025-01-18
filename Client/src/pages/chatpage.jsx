@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { MessageCircle, Send, Loader, Menu, Camera, Mic } from 'lucide-react';
 import "./chatpage.css";
 import { Link } from "react-router-dom";
-
 const PROMPT_SUGGESTIONS = [
   {
     id: 1,
@@ -25,6 +24,8 @@ const PROMPT_SUGGESTIONS = [
     prompt: "How should I structure my routine with my medical condition?",
   },
 ];
+
+const chat_hist = {history: []};
 
 export default function App() {
   const [messages, setMessages] = useState([]);
@@ -61,11 +62,21 @@ export default function App() {
     setQuery("");
     setIsLoading(true);
 
+    const mrn = localStorage.getItem('mrn');
+    try {
+      const response = await fetch(
+        `http://localhost:3000/search?query=${encodeURIComponent(query)}&mrn=${encodeURIComponent(mrn)}&history=${encodeURIComponent(JSON.stringify(chat_hist))}`
+      );
+      const data = await response.json();
+      chat_hist.history.push({ User: query, Bot: data.message });
+      localStorage.setItem('chat_history', JSON.stringify(chat_hist))
+      
     try {
       const response = await fetch(
         `http://localhost:8000/search?query=${encodeURIComponent(query)}`
       );
       const data = await response.json();
+
       setMessages((prev) => [...prev, { text: data.message, sender: "bot" }]);
     } catch {
       setMessages((prev) => [
@@ -141,6 +152,11 @@ export default function App() {
                   message.sender === "user" ? "user-message" : "bot-message"
                 }`}
               >
+                <div className="message-content">{<MarkdownRenderer content = {message.text} />}</div>
+
+              </div>
+            ))}
+            {isLoading && ( 
                 <div className="message-content">{message.text}</div>
               </div>
             ))}

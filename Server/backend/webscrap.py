@@ -2,17 +2,28 @@ import os
 import asyncio
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from groq import Groq
+import google.generativeai as genai
 from tavily import TavilyClient
 from crawl4ai import AsyncWebCrawler
 import requests
 
 load_dotenv()
 
-groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 mongo_client = MongoClient(os.getenv("MONGO_DB_CLIENT"))
 db = mongo_client["medical_records_db"]
 collection = db["patients"]
+
+model = genai.GenerativeModel(
+    model_name="gemini-2.0-flash-exp",
+    generation_config={
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 40,
+        "max_output_tokens": 8192,
+        "response_mime_type": "text/plain",
+    },
+)
 
 async def crawl_url(url):
     try:
@@ -23,11 +34,11 @@ async def crawl_url(url):
         print(f"Error crawling {url}: {e}")
         return None
 
-async def web_scrap_avail_links(avail_links):
-    tasks = [crawl_url(url) for url in avail_links[:3]]
+async def web_scrap_avail_links(avail_links, mrn):
+    tasks = [crawl_url(url) for url in avail_links[ :6]]
     results = await asyncio.gather(*tasks)
-    
-    with open("scrapped.txt", "w", encoding="utf-8") as file:
+
+    with open(f"scrapped_{mrn}.txt", "w", encoding="utf-8") as file:
         for result in results:
             if result:
                 file.write(result + "\n")
@@ -46,7 +57,7 @@ def get_query_urls(user_query):
 
     response = requests.get(base_url, params=params)
     url = []
-    
+
     if response.status_code == 200:
         response_json = response.json()
         if 'items' in response_json:
@@ -67,145 +78,64 @@ def get_patient_by_mrn(mrn_number):
         patient["_id"] = str(patient["_id"])
     return patient
 
-def split_content(content, max_length=2000):
-    return [content[i:i + max_length] for i in range(0, len(content), max_length)]
+# def split_content(content, max_length=2000):
+#     return [content[i:i + max_length] for i in range(0, len(content), max_length)]
 
-def summarize_chunks(medical_rec, content_chunks, user_query):
-    """
-    Summarize each chunk individually.
-    """
-    summarized_chunks = []
-    for i, chunk in enumerate(content_chunks):
-        combined_prompts = [
-            {
-                "role": "user",
-                "content": f"Imagine you're a nutritionist with expertise in all types of medical conditions. {medical_rec}, this is a patient's medical history in JSON format. Based on that, you'll need to understand their medical records. For any subsequent prompts I give, you must tailor your response according to the restrictions and requirements outlined in the patient's medical records. Consider this as PROMPT-1. Do not provide any type of introduction or conclusion for the generated content by your side."
-            },
-            {
-                "role": "user",
-                "content": f"Consider this as PROMPT-2: {chunk}. This is part {i+1} of the webscraped content I gathered based on the user query: {user_query}. Summarize the following content into the smallest possible form while retaining all key points and providing essential details. Your summary must be concise, clear, and cover every detail strictly from the provided content without adding or omitting any information. Provide sufficient context to help the user understand, but do not introduce or conclude the response."
-            }
-        ]
+# def summarize_chunks(medical_rec, content_chunks, user_query):
+#     chat_session = model.start_chat(history=[])
+#     summarized_chunks = []
+#     for i, chunk in enumerate(content_chunks):
+#         combined_prompts = [
+#             {
+#                 "role": "user",
+#                 "content": f"Imagine you're a nutritionist with expertise in all types of medical conditions. {medical_rec}, this is a patient's medical history in JSON format. Based on that, you'll need to understand their medical records. For any subsequent prompts I give, you must tailor your response according to the restrictions and requirements outlined in the patient's medical records. Consider this as PROMPT-1. Do not provide any type of introduction or conclusion for the generated content by your side."
+#             },
+#             {
+#                 "role": "user",
+#                 "content": f"Consider this as PROMPT-2: {chunk}. This is part {i+1} of the webscraped content I gathered based on the user query: {user_query}. Summarize the following content into the smallest possible form while retaining all key points and providing essential details. Your summary must be concise, clear, and cover every detail strictly from the provided content without adding or omitting any information. Provide sufficient context to help the user understand, but do not introduce or conclude the response."
+#             }
+#         ]
 
-        chat_completion = groq_client.chat.completions.create(
-            messages=combined_prompts,
-            model="llama3-8b-8192",
-        )
+#         chat_completion = chat_session.send_message(combined_prompts[1]["content"])
+#         summarized_chunks.append(chat_completion.text.strip())
 
-        summarized_chunks.append(chat_completion.choices[0].message.content.strip())
-    
-    # Return the summarized chunks combined
-    return " ".join(summarized_chunks)
+#     return " ".join(summarized_chunks)
 
-def final_summary(medical_rec, summarized_content):
-    """
-    Take the summarized content from chunks and make a final concise summary.
-    """
+def diag_summary(user_query, medical_rec, summarized_content):
+    chat_session = model.start_chat(history=[])
     final_prompt = [
         {
             "role": "user",
-            "content": f"Imagine you're a nutritionist with expertise in all types of medical conditions. {medical_rec}, this is a patient's medical history in JSON format. Based on that, you'll need to understand their medical records. For any subsequent prompts I give, you must tailor your response according to the restrictions and requirements outlined in the patient's medical records. Consider this as PROMPT-1. Do not provide any type of introduction or conclusion for the generated content by your side. Even if the provided query has nothing to do with the medical records, You will reply with saying that the person in the medical record has nothing to do with this medical issue. But for the information I would still provide you the medical diagnosis. You are not supposed to refer any other type of information other than the medical records i have given and the actual webscraped content i have provided."
-        },
-        {
-            "role": "user",
-            "content": f"Consider this as PROMPT-2: {summarized_content}. This is the combined summary from multiple parts of webscraped content. Provide a **final detailed summary** that retains the most important points and enough context for understanding, in the smallest possible form. Provide the response in 4 sections: 1. About the condition, 2. Prevention strategies, 3. Medication options, and 4. Nutritional advice, ensuring clarity and completeness."
+            "content": f"Imagine you're a nutritionist with expertise in all types of medical conditions. {medical_rec}, this is a patient's medical history in JSON format. Based on that, you'll need to understand their medical records. For any subsequent prompts I give, you must tailor your response according to the restrictions and requirements outlined in the patient's medical records. {summarized_content}: This is the webscraped content I gathered based on the user query: {user_query}. Summarize the following content into the smallest possible form while retaining all key points and providing essential details. Your summary must be concise, clear, and cover every detail strictly from the provided content without adding or omitting any information. Provide sufficient context to help the user understand. Provide the response in 4 sections: 1. About the condition, 2. Prevention strategies, 3. Medication options, and 4. Nutritional advice, ensuring clarity and completeness. Do not provide any type of introduction or conclusion for the generated content by your side."
         }
     ]
 
-    chat_completion = groq_client.chat.completions.create(
-        messages=final_prompt,
-        model="llama3-8b-8192",
-    )
+    chat_completion = chat_session.send_message(final_prompt[0]["content"])
+    return chat_completion.text.strip()
 
-    return chat_completion.choices[0].message.content.strip()
+def dietplan_summary(user_query, medical_rec, summarized_content):
+    chat_session = model.start_chat(history=[])
+    final_prompt = [
+        {
+            "role": "user",
+            "content": f"Imagine you're a nutritionist with expertise in all types of medical conditions. {medical_rec}, this is a patient's medical history in JSON format. Based on that, you'll need to understand their medical records. For any subsequent prompts I give, you must tailor your response according to the restrictions and requirements outlined in the patient's medical records. {summarized_content}: This is the webscraped content I gathered based on the user query: {user_query}. Summarize the following content into the smallest possible form while retaining all key points and providing essential details. Your summary must be concise, clear, and cover every detail strictly from the provided content without adding or omitting any information and provide me the diet plan which will best fit the user's food preference and will help them to cure the medical issue that they have. Provide sufficient context to help the user understand. Provide the response in 4 sections: Breakfast, Lunch, Evening, Dinner. Provide these sections for each day that the user asked for. Do not provide any type of introduction or conclusion for the generated content by your side."
+        }
+    ]
 
+    chat_completion = chat_session.send_message(final_prompt[0]["content"])
+    return chat_completion.text.strip()
 
 def llm_infer(medical_rec, webscraped_content, user_query):
-    content_chunks = split_content(webscraped_content)
-    
-    # Step 1: Summarize individual chunks
-    summarized_content = summarize_chunks(medical_rec, content_chunks, user_query)
-
-    # Step 2: Generate the final summary from the summarized chunks
-    final_response = final_summary(medical_rec, summarized_content)
-
+    # content_chunks = split_content(webscraped_content)
+    # summarized_content = summarize_chunks(medical_rec, content_chunks, user_query)
+    final_response = diag_summary(user_query, medical_rec, webscraped_content)
     return final_response
 
-def summarize_chunks_diet_plan(medical_rec,content_chunks, user_query):
-    print(medical_rec)
-    summarized_chunks = []
-    for i, chunk in enumerate(content_chunks):
-        combined_prompts = [
-            {
-                "role": "user",
-                "content": f"Imagine you're a nutritionist with expertise in creating a good diet planner based on patient's {medical_rec}, this is a patient's medical history in JSON format. Based on that, you'll need to understand their medical records. For any subsequent prompts I give, you must tailor your response according to the restrictions and requirements outlined in the patient's medical records. Consider this as PROMPT-1. Do not provide any type of introduction or conclusion for the generated content by your side."
-            },
-            {
-                "role": "user",
-                "content": f"Consider this as PROMPT-2: {chunk}. This is part {i+1} of the webscraped content I gathered based on the user query: {user_query}. Summarize the following content into the smallest possible form while retaining all key points and providing essential details. Your summary must be concise, clear, and cover every detail strictly from the provided content without adding or omitting any information. Provide sufficient context to help the user understand, but do not introduce or conclude the response."
-            }
-        ]
-
-        chat_completion = groq_client.chat.completions.create(
-            messages=combined_prompts,
-            model="llama3-8b-8192",
-        )
-
-        summarized_chunks.append(chat_completion.choices[0].message.content.strip())
-    
-    # Return the summarized chunks combined
-    return " ".join(summarized_chunks)
-
-def final_summary_diet_plan(medical_rec, summarized_content):
-    """
-    Take the summarized content from chunks and make a final concise summary.
-    """
-    final_prompt = [
-        {
-            "role": "user",
-            "content": f"Imagine you're a nutritionist with expertise in creating a good diet planner based on patient's {medical_rec}, this is a patient's medical history in JSON format. Based on that, you'll need to understand their medical records. For any subsequent prompts I give, you must tailor your response according to the restrictions and requirements outlined in the patient's medical records. Consider this as PROMPT-1. Do not provide any type of introduction or conclusion for the generated content by your side. Even if the provided query has nothing to do with the medical records, You will reply with saying that the person in the medical record has nothing to do with this medical issue. But for the information I would still provide you the medical diagnosis. You are not supposed to refer any other type of information other than the medical records i have given and the actual webscraped content i have provided."
-        },
-        {
-            "role": "user",
-            "content": f"Consider this as PROMPT-2: {summarized_content}. This is the combined summary from multiple parts of webscraped content. Provide a **Customized Diet plan** that retains the most important points and enough context for understanding, in the smallest possible form. "
-        }
-    ]
-
-    chat_completion = groq_client.chat.completions.create(
-        messages=final_prompt,
-        model="llama3-8b-8192",
-    )
-
-    return chat_completion.choices[0].message.content.strip()
-
-def diet_plan_call(medical_rec,webscraped_content,user_query):
-    
-    content_chunks = split_content(webscraped_content)
-    summarized_content = summarize_chunks_diet_plan(medical_rec,content_chunks, user_query)
-    final_response = final_summary_diet_plan(medical_rec, summarized_content)
-
+def diet_plan_call(medical_rec, webscraped_content, user_query):
+    # content_chunks = split_content(webscraped_content)
+    # summarized_content = summarize_chunks(medical_rec, content_chunks, user_query)
+    final_response = dietplan_summary(user_query, medical_rec, webscraped_content)
     return final_response
-
-def helper_llm(medical_rec, query):
-
-    print(medical_rec)
-    client = Groq(
-        api_key=os.getenv("GROQ_API_KEY")
-    )
-        
-    prompt = [
-        {
-            "role": "user",
-            "content": f"I'll provide you a query. Provide the necessary thigs which are asked you to provide on medical history. This is my query: {query} and this is my Medical history : {medical_rec}"
-        },
-    ]
-    
-    chat_completion = client.chat.completions.create(
-    messages=prompt,
-    model="llama3-8b-8192",
-    )
-
-    return chat_completion.choices[0].message.content.strip()
 
 # # Main execution flow
 # if __name__ == "__main__":
@@ -218,9 +148,9 @@ def helper_llm(medical_rec, query):
 
 #         user_query = input("Enter your query: ")
 #         query_urls = get_query_urls(user_query)
-        
+
 #         if query_urls:
-#             asyncio.run(web_scrap_avail_links(query_urls))  # Call the async web scraping function
+#             asyncio.run(web_scrap_avail_links(query_urls))
 
 #             with open("scrapped.txt", "r", encoding="utf-8") as file:
 #                 webscraped_content = file.read()
@@ -233,5 +163,3 @@ def helper_llm(medical_rec, query):
 #             print("No valid URLs found for the given query.")
 #     else:
 #         print("MRN Number not found. Please check the number and try again.")
-
-

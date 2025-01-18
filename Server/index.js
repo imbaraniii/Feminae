@@ -7,13 +7,13 @@ const userRoutes = require("./routes/userRoutes");
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(bodyParser.json());
 
 // Connect to MongoDB Atlas
 mongoose
   .connect(
-    "mongodb+srv://kavineshp11:1amKTG%401@cluster0.qayni.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://feminae123:feminae123@cluster0.qayni.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

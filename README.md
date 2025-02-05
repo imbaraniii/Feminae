@@ -4,6 +4,8 @@
 # Introduction
 Welcome to the Femineh project! This project aims to support lifestyle of women in various field. 
 
+## Presentation Slides can be Found [here](https://prezi.com/view/joNumR4LyBmTJUCGhL7s/)
+
 # Project Walkthrough
 
 

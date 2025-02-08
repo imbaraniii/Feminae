@@ -1,10 +1,16 @@
 
 
 
-# Introduction
-Welcome to the Femineh project! This project aims to support lifestyle of women in various field. 
+# Femineh
 
-## Presentation Slides can be Found [here](https://prezi.com/view/joNumR4LyBmTJUCGhL7s/)
+## Femineh: Data-Driven Maternal Wellness. A full-stack application providing personalized diet recommendations based on clinical guidelines.
+
+<br>
+
+> [!NOTE]
+> Presentation Slides can be Found [here](https://prezi.com/view/joNumR4LyBmTJUCGhL7s/)
+
+<br>
 
 # Project Walkthrough
 

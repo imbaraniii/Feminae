@@ -47,6 +47,10 @@
 <br>
 
 # Data Extraction Workflow
+
+> [!IMPORTANT]  
+> For Data Collection and processing alone, we've built a sophisticated Pipeline.As everything were in Tabular format, In order to make a robust system, we've came up with an Automated Workflow. The crux data source includes accurate nutritional info on Food, for which we've used [The Indian Council of Medical Research (ICMR) Guidelines](https://www.icmr.gov.in/guidelines) and Few clinical dietian's hand prescribed data sources for Diet. In Addition, to web Searches, Information from Trustable Sources like PubMed, WHO and few other has been considerd
+
 ![Copy of accessible_AI (1)](https://github.com/user-attachments/assets/7a11b250-9082-48bc-ac99-ed643061d106)
 
 

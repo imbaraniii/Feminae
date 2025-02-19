@@ -55,7 +55,7 @@
 
 
 # Tech Stacks
-![image](https://github.com/user-attachments/assets/2bbdd8db-5db2-4c23-ab24-66d2ddc3b6f6)
+![image](https://github.com/user-attachments/assets/028d5fd8-4a31-4b3b-87e4-e8779afa3ca8)
 
 
 # Mentor and Domain Expert's testimonials
